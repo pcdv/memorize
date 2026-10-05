@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import { requestPersistentStorage } from './lib/db'
+import './lib/install'
 import './styles.css'
 
 requestPersistentStorage()

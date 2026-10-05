@@ -107,6 +107,13 @@ export const fr: Messages = {
   restoreDone: 'Sauvegarde restaurée.',
   restoreFailed: 'Ce fichier n’est pas une sauvegarde valide.',
 
+  install: 'Installer',
+  installTitle: 'Installer l’application',
+  installHelp: 'Installée, Memorize s’ouvre en plein écran depuis l’écran d’accueil et fonctionne hors ligne.',
+  installed: 'Installée : vous utilisez l’application.',
+  installFirefox: 'Dans Firefox : menu ⋮ → Plus… → Ajouter l’application à l’écran d’accueil.',
+  installIos: 'Dans Safari : bouton Partager → Sur l’écran d’accueil.',
+  installOther: 'Utilisez le menu du navigateur : « Installer l’application » ou « Ajouter à l’écran d’accueil ».',
   updateAvailable: 'Une nouvelle version est disponible.',
   reload: 'Recharger',
   offlineReady: 'Prêt à fonctionner hors ligne.',

@@ -3,6 +3,7 @@ import { Icon } from '../components/Icon'
 import { useT } from '../i18n'
 import { download, exportBackup, importBackup } from '../lib/backup'
 import { saveSettings, type AnswerMode, type Direction, type UiLang } from '../lib/db'
+import { installPlatform, isInstalled, useInstallPrompt } from '../lib/install'
 import { href } from '../lib/route'
 import { useSettings } from '../settings'
 
@@ -29,6 +30,32 @@ function Segmented<T extends string>({
         </button>
       ))}
     </div>
+  )
+}
+
+const INSTALL_STEPS = { 'firefox-android': 'installFirefox', ios: 'installIos', other: 'installOther' } as const
+
+function InstallSection() {
+  const t = useT()
+  const { canInstall, install } = useInstallPrompt()
+  return (
+    <section className="panel">
+      <h2>{t('installTitle')}</h2>
+      {isInstalled() ? (
+        <p className="hint">{t('installed')}</p>
+      ) : (
+        <>
+          <p className="hint">{t('installHelp')}</p>
+          {canInstall ? (
+            <button className="button primary" onClick={() => void install()}>
+              <Icon name="download" size={18} /> {t('install')}
+            </button>
+          ) : (
+            <p>{t(INSTALL_STEPS[installPlatform()])}</p>
+          )}
+        </>
+      )}
+    </section>
   )
 }
 
@@ -135,6 +162,8 @@ export function Settings() {
           />
         </div>
       </section>
+
+      <InstallSection />
 
       <p className="hint center">Memorize {__APP_VERSION__}</p>
     </main>

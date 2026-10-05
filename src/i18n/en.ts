@@ -116,6 +116,13 @@ export const en = {
   restoreFailed: 'This file is not a valid backup.',
 
   // PWA
+  install: 'Install',
+  installTitle: 'Install the app',
+  installHelp: 'Installed, Memorize opens full screen from your home screen and works offline.',
+  installed: 'Installed: you are using the app.',
+  installFirefox: 'In Firefox: menu ⋮ → More… → Add app to Home screen.',
+  installIos: 'In Safari: Share button → Add to Home Screen.',
+  installOther: 'Use your browser’s menu: “Install app” or “Add to Home screen”.',
   updateAvailable: 'A new version is available.',
   reload: 'Reload',
   offlineReady: 'Ready to work offline.',

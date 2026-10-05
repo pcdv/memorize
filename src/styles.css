@@ -1082,3 +1082,11 @@ input[type='number'] {
   max-width: 360px;
   margin-top: 24px;
 }
+
+.install-button {
+  flex: none;
+  min-height: 38px;
+  padding: 0 12px;
+  border-color: var(--accent);
+  color: var(--accent);
+}

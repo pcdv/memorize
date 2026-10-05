@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon'
 import { languageName, useI18n, type MessageKey } from '../i18n'
 import { db, type Collection } from '../lib/db'
 import { createCollection } from '../lib/importer'
+import { useInstallPrompt } from '../lib/install'
 import { parseCollection } from '../lib/parse'
 import { loadCollectionData } from '../lib/queries'
 import { href, navigate } from '../lib/route'
@@ -28,6 +29,7 @@ export function Home() {
   const { t, lang } = useI18n()
   const settings = useSettings()
   const overview = useLiveQuery(loadOverview)
+  const { canInstall, install } = useInstallPrompt()
   const [importing, setImporting] = useState<{ file?: File } | null>(null)
   const [dragging, setDragging] = useState(false)
 
@@ -64,6 +66,11 @@ export function Home() {
             <p className="muted">{t('appTagline')}</p>
           </div>
         </div>
+        {canInstall && (
+          <button className="button install-button" onClick={() => void install()} title={t('installTitle')}>
+            <Icon name="download" size={18} /> {t('install')}
+          </button>
+        )}
         <a className="icon-button" href={href.settings} aria-label={t('settings')} title={t('settings')}>
           <Icon name="settings" />
         </a>
