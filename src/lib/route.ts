@@ -5,6 +5,7 @@ import type { QueueOptions } from './scheduler'
 export type Route =
   | { name: 'home' }
   | { name: 'settings' }
+  | { name: 'share' }
   | { name: 'collection'; id: number }
   | { name: 'study'; id: number; options: QueueOptions }
 
@@ -21,6 +22,7 @@ export function parseRoute(hash: string): Route {
   const [, page, id, ...flags] = hash.replace(/^#/, '').split('/')
   const n = Number(id)
   if (page === 'settings') return { name: 'settings' }
+  if (page === 'share') return { name: 'share' }
   if (page === 'c' && n > 0) return { name: 'collection', id: n }
   if (page === 'study' && n > 0) {
     const dir = flags.find((f) => f === 'forward' || f === 'reverse')

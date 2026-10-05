@@ -109,6 +109,10 @@ export const fr: Messages = {
   restoreDone: 'Sauvegarde restaurée.',
   restoreFailed: 'Ce fichier n’est pas une sauvegarde valide.',
 
+  shareTitle: 'Texte partagé',
+  shareUpdate: 'Mettre à jour une collection',
+  shareMatch: 'même nom',
+
   install: 'Installer',
   installTitle: 'Installer l’application',
   installHelp: 'Installée, Memorize s’ouvre en plein écran depuis l’écran d’accueil et fonctionne hors ligne.',
@@ -116,6 +120,9 @@ export const fr: Messages = {
   installFirefox: 'Dans Firefox : menu ⋮ → Plus… → Ajouter l’application à l’écran d’accueil.',
   installIos: 'Dans Safari : bouton Partager → Sur l’écran d’accueil.',
   installOther: 'Utilisez le menu du navigateur : « Installer l’application » ou « Ajouter à l’écran d’accueil ».',
+  shareFeatureTitle: 'Mettre à jour depuis une note Google Keep',
+  shareFeatureHelp:
+    'Sur Android, une fois installée depuis Chrome (ou Edge, Samsung Internet), Memorize apparaît dans le menu Partager des autres applications. Dans Google Keep, ouvrez la note, puis ⋮ → Envoyer → Memorize, et choisissez cette collection : elle est proposée en premier si la note s’appelle « {name} ». Firefox ne le permet pas ; l’application installée depuis Chrome a ses propres données, transférez-les avec « Exporter avec la progression ».',
   updateAvailable: 'Une nouvelle version est disponible.',
   reload: 'Recharger',
   offlineReady: 'Prêt à fonctionner hors ligne.',

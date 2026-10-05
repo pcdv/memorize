@@ -117,6 +117,11 @@ export const en = {
   restoreDone: 'Backup restored.',
   restoreFailed: 'This file is not a valid backup.',
 
+  // Text shared from another app
+  shareTitle: 'Shared text',
+  shareUpdate: 'Update a collection',
+  shareMatch: 'same name',
+
   // PWA
   install: 'Install',
   installTitle: 'Install the app',
@@ -125,6 +130,9 @@ export const en = {
   installFirefox: 'In Firefox: menu ⋮ → More… → Add app to Home screen.',
   installIos: 'In Safari: Share button → Add to Home Screen.',
   installOther: 'Use your browser’s menu: “Install app” or “Add to Home screen”.',
+  shareFeatureTitle: 'Update from a Google Keep note',
+  shareFeatureHelp:
+    'On Android, when installed from Chrome (or Edge, Samsung Internet), Memorize appears in the share menu of other apps. In Google Keep, open the note, then ⋮ → Send → Memorize, and pick this collection: it comes first when the note is named “{name}”. Firefox does not offer this; the app installed from Chrome keeps its own data, so move it with “Export with progress”.',
   updateAvailable: 'A new version is available.',
   reload: 'Reload',
   offlineReady: 'Ready to work offline.',

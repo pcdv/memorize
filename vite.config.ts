@@ -25,6 +25,12 @@ export default defineConfig({
         display: 'standalone',
         background_color: '#f6f5fb',
         theme_color: '#5b4bdb',
+        // Lets Android's share sheet send text to the installed app (Chromium browsers only).
+        share_target: {
+          action: base,
+          method: 'GET',
+          params: { title: 'title', text: 'text', url: 'url' },
+        },
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },

@@ -1083,6 +1083,36 @@ input[type='number'] {
   margin-top: 24px;
 }
 
+.share-help summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.share-help p {
+  margin-bottom: 0;
+}
+
+.share-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.share-choices .button {
+  justify-content: flex-start;
+}
+
+.share-match {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.share .topbar p {
+  margin: 2px 0 0;
+}
+
 .install-button {
   flex: none;
   min-height: 38px;

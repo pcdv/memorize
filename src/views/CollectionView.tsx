@@ -8,6 +8,7 @@ import { languageName, useI18n, useIntervalUnits, type Translate } from '../i18n
 import { download, exportCollectionBackup, exportCollectionText } from '../lib/backup'
 import { db, deleteCollection, type Direction, type StoredCard } from '../lib/db'
 import { normalize } from '../lib/answer'
+import { installPlatform } from '../lib/install'
 import { loadCollectionData } from '../lib/queries'
 import { href, navigate } from '../lib/route'
 import { formatInterval, queueStats, resetCollectionProgress, type IntervalUnits } from '../lib/scheduler'
@@ -157,6 +158,14 @@ export function CollectionView({ id }: { id: number }) {
           <Icon name="trash" size={18} /> {t('delete')}
         </button>
       </section>
+
+      {/* iOS web apps cannot receive shared text. */}
+      {installPlatform() !== 'ios' && (
+        <details className="panel share-help">
+          <summary>{t('shareFeatureTitle')}</summary>
+          <p className="hint">{t('shareFeatureHelp', { name: c.name })}</p>
+        </details>
+      )}
 
       <section className="panel">
         <div className="section-header">

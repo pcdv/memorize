@@ -8,6 +8,7 @@ import { SettingsContext } from './settings'
 import { CollectionView } from './views/CollectionView'
 import { Home } from './views/Home'
 import { Settings } from './views/Settings'
+import { ShareView } from './views/ShareView'
 import { Study } from './views/Study'
 
 function UpdatePrompt() {
@@ -51,6 +52,7 @@ export function App() {
       <I18nContext.Provider value={i18n}>
         {route.name === 'home' && <Home />}
         {route.name === 'settings' && <Settings />}
+        {route.name === 'share' && <ShareView />}
         {route.name === 'collection' && <CollectionView key={route.id} id={route.id} />}
         {route.name === 'study' && <Study key={href.study(route.id, route.options)} id={route.id} options={route.options} />}
         <UpdatePrompt />

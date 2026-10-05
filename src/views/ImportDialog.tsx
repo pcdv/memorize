@@ -18,20 +18,25 @@ const canReadClipboard = typeof navigator.clipboard?.readText === 'function'
 export function ImportDialog({
   collection,
   initialFile,
+  initialText,
+  initialName = '',
   onClose,
   onDone,
 }: {
   collection?: Collection
   initialFile?: File
+  /** Text to import, e.g. shared from another app; opens the "Paste text" tab. */
+  initialText?: string
+  initialName?: string
   onClose: () => void
   onDone: (collectionId: number) => void
 }) {
   const { t, lang } = useI18n()
   const settings = useSettings()
-  const [tab, setTab] = useState<'file' | 'text'>('file')
-  const [text, setText] = useState('')
+  const [tab, setTab] = useState<'file' | 'text'>(initialText === undefined ? 'file' : 'text')
+  const [text, setText] = useState(initialText ?? '')
   const [fileName, setFileName] = useState<string>()
-  const [name, setName] = useState('')
+  const [name, setName] = useState(initialName)
   const [busy, setBusy] = useState(false)
   const [dragging, setDragging] = useState(false)
 

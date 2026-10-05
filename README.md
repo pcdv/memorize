@@ -24,6 +24,11 @@ beau / joli : bonito
   Cards asking the same question accept each other's answers (`Wartawan : reporter` and
   `Jurnalis : reporter`).
 
+On Android, an app installed from a Chromium browser (Chrome, Edge, Samsung Internet)
+also receives shared text: share a note (e.g. from Google Keep: ⋮ → Send) to
+**Memorize**, then pick the collection to update, the one named like the note first.
+Firefox does not support sharing to web apps.
+
 To update a collection, edit the file and use **Update from file** on the collection
 page: unchanged and edited lines keep their progress, new lines are added, lines that
 are gone are removed. **Export as text** gives the file back.
