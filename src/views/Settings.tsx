@@ -1,10 +1,10 @@
 import { useRef } from 'react'
 import { Icon } from '../components/Icon'
 import { useT } from '../i18n'
-import { download, exportBackup, importBackup } from '../lib/backup'
+import { download, exportBackup, readBackup, restoreBackup } from '../lib/backup'
 import { saveSettings, type AnswerMode, type Direction, type UiLang } from '../lib/db'
 import { installPlatform, isInstalled, useInstallPrompt } from '../lib/install'
-import { href } from '../lib/route'
+import { href, navigate } from '../lib/route'
 import { useSettings } from '../settings'
 
 function Segmented<T extends string>({
@@ -65,13 +65,11 @@ export function Settings() {
   const restoreInput = useRef<HTMLInputElement>(null)
 
   const restore = async (file: File) => {
-    if (!confirm(t('restoreConfirm'))) return
-    try {
-      await importBackup(await file.text())
-      alert(t('restoreDone'))
-    } catch {
-      alert(t('restoreFailed'))
-    }
+    const backup = readBackup(await file.text())
+    if (!backup) return alert(t('restoreFailed'))
+    const restored = await restoreBackup(backup, t)
+    if (typeof restored === 'number') navigate(href.collection(restored))
+    else if (restored === 'all') alert(t('restoreDone'))
   }
 
   return (

@@ -85,6 +85,8 @@ export const fr: Messages = {
   newPerDay: 'Nouvelles cartes par jour',
   updateFromFile: 'Mettre à jour depuis un fichier',
   exportText: 'Exporter en texte',
+  exportWithProgress: 'Exporter avec la progression',
+  replaceCollectionConfirm: 'Une collection « {name} » existe déjà. La remplacer, avec sa progression, par cette sauvegarde ?',
   resetProgress: 'Réinitialiser la progression',
   resetConfirm: 'Oublier toute la progression de « {name} » ?',
   deleteConfirm: 'Supprimer « {name} » et sa progression ?',

@@ -91,6 +91,8 @@ export const en = {
   newPerDay: 'New cards per day',
   updateFromFile: 'Update from file',
   exportText: 'Export as text',
+  exportWithProgress: 'Export with progress',
+  replaceCollectionConfirm: 'A collection named “{name}” already exists. Replace it and its progress with this backup?',
   resetProgress: 'Reset progress',
   resetConfirm: 'Forget all progress on “{name}”?',
   deleteConfirm: 'Delete “{name}” and its progress?',

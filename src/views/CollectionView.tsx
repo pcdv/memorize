@@ -5,7 +5,7 @@ import { Icon } from '../components/Icon'
 import { LangPicker } from '../components/LangPicker'
 import { StudyMore } from '../components/StudyMore'
 import { languageName, useI18n, useIntervalUnits, type Translate } from '../i18n'
-import { download, exportCollectionText } from '../lib/backup'
+import { download, exportCollectionBackup, exportCollectionText } from '../lib/backup'
 import { db, deleteCollection, type Direction, type StoredCard } from '../lib/db'
 import { normalize } from '../lib/answer'
 import { loadCollectionData } from '../lib/queries'
@@ -133,6 +133,12 @@ export function CollectionView({ id }: { id: number }) {
         </button>
         <button className="button" onClick={async () => download(await exportCollectionText(c), `${c.name}.txt`)}>
           <Icon name="download" size={18} /> {t('exportText')}
+        </button>
+        <button
+          className="button"
+          onClick={async () => download(await exportCollectionBackup(c), `${c.name}.memorize.json`)}
+        >
+          <Icon name="download" size={18} /> {t('exportWithProgress')}
         </button>
         <button
           className="button"

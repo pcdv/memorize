@@ -40,8 +40,12 @@ are gone are removed. **Export as text** gives the file back.
   button shows when the card will come back.
 - Desktop shortcuts: <kbd>Space</kbd> shows the answer, <kbd>1</kbd>–<kbd>4</kbd> grade.
 
-Progress lives in the browser's IndexedDB. Use **Settings → Export backup** to save it or
-move it to another device.
+Progress lives in the browser's IndexedDB. To save it or move it to another device:
+
+- **Export with progress**, on a collection page, saves that collection. Choosing that file
+  in **New collection** (or **Settings → Restore backup**) adds it back without touching the
+  other collections, after asking before replacing one with the same name.
+- **Settings → Export backup** saves everything; restoring it replaces all data.
 
 ### About the phone keyboard
 
