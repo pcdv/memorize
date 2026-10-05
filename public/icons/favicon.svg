@@ -4,9 +4,13 @@
       <stop offset="0" stop-color="#5b4bdb"/>
       <stop offset="1" stop-color="#8b5cf6"/>
     </linearGradient>
+    <!-- Left hemisphere of a brain seen from above; mirrored for the right one. -->
+    <path id="half" d="M262 152 C254 128 236 112 212 114 C186 110 162 126 156 150 C130 154 112 178 116 204
+      C98 222 96 254 110 274 C96 298 106 328 132 338 C138 366 166 388 196 384 C214 398 244 396 254 380
+      C258 376 262 372 262 366 Z" fill="#fff"/>
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#g)"/>
-  <rect x="150" y="128" width="240" height="280" rx="36" fill="#fff" fill-opacity=".35" transform="rotate(12 270 268)"/>
-  <rect x="122" y="112" width="240" height="280" rx="36" fill="#fff" transform="rotate(-6 242 252)"/>
-  <path d="M183 262l45 45 90-100" fill="none" stroke="#6d4fe6" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-6 242 252)"/>
+  <use href="#half"/>
+  <use href="#half" transform="translate(512 0) scale(-1 1)"/>
+  <path d="M256 152v36M256 366v-30" stroke="#c4b8f7" stroke-width="12" stroke-linecap="round"/>
 </svg>
