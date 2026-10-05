@@ -31,4 +31,17 @@ describe('re-importing a collection', () => {
     expect(await db.cards.count()).toBe(6)
     expect(await db.reviews.count()).toBe(1)
   })
+
+  it('takes the languages of a header added later', async () => {
+    const id = await createCollection('indo', parseCollection('mata : eye\ntubuh : body'), DEFAULT_SETTINGS)
+    const collection = (await db.collections.get(id))!
+    expect(collection.leftLang).toBeUndefined()
+
+    const parsed = parseCollection('#lang: id : en\nmata : eye\ntubuh : body')
+    const notes = await db.notes.where('collectionId').equals(id).toArray()
+    await applyMerge(collection, planMerge(notes, parsed.pairs), parsed)
+
+    const after = (await db.collections.get(id))!
+    expect([after.leftLang, after.rightLang]).toEqual(['id', 'en'])
+  })
 })

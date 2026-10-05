@@ -24,7 +24,8 @@ export interface ParseResult {
   rightLang?: string
 }
 
-const LANG_HEADER = /^#\s*lang\s*:\s*([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\s*:\s*([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\s*$/i
+// "#lang: id : en", also without the colon after "lang" ("#lang id : en").
+const LANG_HEADER = /^#\s*lang\s*:?\s*([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\s*:\s*([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\s*$/i
 
 /** Splits on the first unescaped colon; returns null when there is none. */
 function splitPair(line: string): [string, string] | null {

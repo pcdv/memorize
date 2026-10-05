@@ -31,6 +31,13 @@ describe('parseCollection', () => {
     expect(r.pairs).toHaveLength(1)
   })
 
+  it('reads the language header without a colon after "lang"', () => {
+    for (const header of ['#lang id : en', '# lang: id : en', '#lang:id:en', '#Lang id: en']) {
+      const r = parseCollection(`${header}\nmata : eye`)
+      expect([header, r.leftLang, r.rightLang]).toEqual([header, 'id', 'en'])
+    }
+  })
+
   it('round-trips through formatCollection', () => {
     const pairs = [
       { left: 'a:b', right: 'c:d' },
