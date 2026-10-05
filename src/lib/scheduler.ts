@@ -39,10 +39,20 @@ export interface QueueOptions {
   extra?: boolean
 }
 
+/** FNV-1a: a cheap, well-spread 32-bit hash, enough to shuffle cards reproducibly. */
+function hash(s: string): number {
+  let h = 0x811c9dc5
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return h >>> 0
+}
+
 /**
  * Today's study queue: due cards (most overdue first), then new cards up to what is left
  * of the daily new-card limit. New cards whose other direction is already known come
- * first, then file order. New cards are spread among the reviews, and only one direction
+ * first, then file order or a random order of the day (`collection.newOrder`). New cards are spread among the reviews, and only one direction
  * of a given note is shown per session.
  */
 export function buildQueue(
@@ -67,15 +77,15 @@ export function buildQueue(
     : Math.max(0, collection.newPerDay - reviewsToday.filter((r) => r.wasNew).length)
   const known = new Set(cards.filter((c) => c.state !== State.New).map((c) => c.noteId))
   const rank = (c: StoredCard) => (known.has(c.noteId) ? 0 : 1)
+  // In random order, the draw changes every day but stays the same within a day, so
+  // the counts shown before a session match the cards it brings.
+  const day = startOfDay(now).getTime()
+  const position = (c: StoredCard) =>
+    collection.newOrder === 'random' ? hash(`${day}:${c.noteId}`) : (noteOrder.get(c.noteId) ?? 0)
   const fresh: StoredCard[] = []
   const candidates = active
     .filter((c) => c.state === State.New)
-    .sort(
-      (a, b) =>
-        rank(a) - rank(b) ||
-        (noteOrder.get(a.noteId) ?? 0) - (noteOrder.get(b.noteId) ?? 0) ||
-        a.dir.localeCompare(b.dir),
-    )
+    .sort((a, b) => rank(a) - rank(b) || position(a) - position(b) || a.dir.localeCompare(b.dir))
   for (const c of candidates) {
     if (fresh.length >= newLeft) break
     if (seenNotes.has(c.noteId)) continue

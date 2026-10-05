@@ -69,6 +69,26 @@ describe('buildQueue', () => {
     expect(buildQueue(collection, cards, today, order, now, { extra: true })).toHaveLength(2)
   })
 
+  it('can introduce new cards in a random order, fixed for the day', () => {
+    const notes = Array.from({ length: 40 }, (_, i) => i + 1)
+    const cards = notes.map((n) => card(n, 'forward'))
+    const fileOrder = new Map(notes.map((n) => [n, n]))
+    const random = { ...collection, newPerDay: 10, newOrder: 'random' as const }
+    const pick = (at: Date) => buildQueue(random, cards, [], fileOrder, at).map((c) => c.noteId)
+
+    const morning = pick(new Date('2026-10-05T08:00:00'))
+    expect(morning).toHaveLength(10)
+    expect(morning).not.toEqual(notes.slice(0, 10))
+    expect(pick(new Date('2026-10-05T21:00:00'))).toEqual(morning)
+    expect(pick(new Date('2026-10-06T08:00:00'))).not.toEqual(morning)
+  })
+
+  it('keeps words known the other way first in random order', () => {
+    const cards = [card(1, 'forward', { dueInDays: 3 }), card(1, 'reverse'), ...[2, 3, 4, 5].map((n) => card(n, 'reverse'))]
+    const random = { ...collection, direction: 'reverse' as const, newPerDay: 2, newOrder: 'random' as const }
+    expect(buildQueue(random, cards, [], order, now)[0]!.noteId).toBe(1)
+  })
+
   it('spreads new cards among reviews', () => {
     const cards = [1, 2, 3, 4].map((n) => card(n, 'forward', { dueInDays: -1 })).concat([card(5, 'forward')])
     const queue = buildQueue(collection, cards, [], order, now)

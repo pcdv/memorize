@@ -5,6 +5,7 @@ import type { Card as FsrsCard } from 'ts-fsrs'
 export type CardDir = 'forward' | 'reverse'
 export type Direction = CardDir | 'both'
 export type AnswerMode = 'reveal' | 'type'
+export type NewOrder = 'file' | 'random'
 export type UiLang = 'auto' | 'en' | 'fr'
 
 export interface Collection {
@@ -13,6 +14,8 @@ export interface Collection {
   createdAt: number
   direction: Direction
   newPerDay: number
+  /** Order in which new cards are introduced; file order when absent. */
+  newOrder?: NewOrder
   leftLang?: string
   rightLang?: string
 }

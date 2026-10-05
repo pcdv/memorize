@@ -37,6 +37,8 @@ are gone are removed. **Export as text** gives the file back.
 
 - Questions can go left → right, right → left, or both ways (per collection). Each
   direction has its own schedule.
+- New cards come in file order, or in a random order (per collection) that changes every
+  day.
 - Two answer modes, switchable at any time: flip the card and grade yourself, or type
   the answer and let the app check it (case, accents and punctuation don't count; a small
   typo counts as "almost"). In both modes, you can override the suggested grade.

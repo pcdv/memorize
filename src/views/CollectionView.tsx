@@ -115,6 +115,22 @@ export function CollectionView({ id }: { id: number }) {
           <LangPicker label={t('rightSide')} value={c.rightLang} onChange={(v) => update({ rightLang: v })} />
         </div>
         <NumberField label={t('newPerDay')} value={c.newPerDay} onSave={(newPerDay) => update({ newPerDay })} />
+        <div className="field">
+          <span className="field-label">{t('newOrder')}</span>
+          <div className="segmented" role="radiogroup">
+            {(['file', 'random'] as const).map((order) => (
+              <button
+                key={order}
+                role="radio"
+                aria-checked={(c.newOrder ?? 'file') === order}
+                className={(c.newOrder ?? 'file') === order ? 'active' : ''}
+                onClick={() => update({ newOrder: order })}
+              >
+                {t(order === 'file' ? 'newOrderFile' : 'newOrderRandom')}
+              </button>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="panel actions">
