@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Rating, State, type Grade } from 'ts-fsrs'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { Loading } from '../components/ErrorScreen'
 import { GradeButtons } from '../components/GradeButtons'
 import { StudyMore } from '../components/StudyMore'
 import { Icon } from '../components/Icon'
@@ -143,7 +144,7 @@ export function Study({ id, options }: { id: number; options: QueueOptions }) {
     setRevealed(false)
   }
 
-  if (session === undefined) return null
+  if (session === undefined) return <Loading />
   if (session === null) {
     return (
       <main className="page study">

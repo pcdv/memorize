@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useMemo, useState } from 'react'
 import { State } from 'ts-fsrs'
+import { Loading } from '../components/ErrorScreen'
 import { Icon } from '../components/Icon'
 import { LangPicker } from '../components/LangPicker'
 import { StudyMore } from '../components/StudyMore'
@@ -40,7 +41,7 @@ export function CollectionView({ id }: { id: number }) {
       .map((n) => ({ note: n, ...byNote.get(n.id) }))
   }, [data, search])
 
-  if (data === undefined) return null
+  if (data === undefined) return <Loading />
   if (data === null) {
     navigate(href.home)
     return null

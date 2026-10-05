@@ -1083,6 +1083,23 @@ input[type='number'] {
   margin-top: 24px;
 }
 
+.error-screen pre {
+  max-height: 45vh;
+  overflow: auto;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--again);
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.loading {
+  text-align: center;
+  padding-top: 30vh;
+}
+
 .share-help summary {
   font-weight: 600;
   cursor: pointer;

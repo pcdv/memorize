@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useState, type DragEvent } from 'react'
+import { Loading } from '../components/ErrorScreen'
 import { Icon } from '../components/Icon'
 import { languageName, useI18n, type MessageKey } from '../i18n'
 import { db, type Collection } from '../lib/db'
@@ -45,7 +46,7 @@ export function Home() {
     if (file) setImporting({ file })
   }
 
-  if (!overview) return null
+  if (!overview) return <Loading />
 
   return (
     <main

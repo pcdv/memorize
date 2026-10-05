@@ -1,5 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useEffect, useState } from 'react'
+import { Loading } from '../components/ErrorScreen'
 import { Icon } from '../components/Icon'
 import { useT } from '../i18n'
 import { normalize } from '../lib/answer'
@@ -20,7 +21,8 @@ export function ShareView() {
   useEffect(() => {
     if (!shared) navigate(href.home)
   }, [shared])
-  if (!shared || !collections) return null
+  if (!shared) return null
+  if (!collections) return <Loading />
 
   const count = dedupe(parseCollection(shared.text).pairs).length
   // The collection named like the note comes first.

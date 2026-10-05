@@ -13,7 +13,37 @@
     <title>Memorize</title>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Replaced by the app once it renders; stays visible if the app's code fails to run. -->
+    <div id="root"><p style="font-family: system-ui, sans-serif; color: #888; text-align: center; margin-top: 40vh">Memorize…</p></div>
+    <script>
+      // Kept out of the app's bundle, so it works even when the bundle fails.
+      // ?debug loads Eruda, an on-page console, now and in the next launches (also in the
+      // installed app, which shares this site's storage); ?debug=off stops it.
+      ;(function () {
+        var param = new URLSearchParams(location.search).get('debug')
+        try {
+          if (param === 'off') localStorage.removeItem('memorize-debug')
+          else if (param !== null) localStorage.setItem('memorize-debug', '1')
+          if (localStorage.getItem('memorize-debug')) {
+            var s = document.createElement('script')
+            s.src = 'https://cdn.jsdelivr.net/npm/eruda@3'
+            s.onload = function () { eruda.init() }
+            document.head.appendChild(s)
+          }
+        } catch (e) {}
+        // A startup error is written on the page rather than leaving it blank.
+        function show(message) {
+          // A benign warning of Chrome, not an error.
+          if (/ResizeObserver loop/.test(message)) return
+          var pre = document.createElement('pre')
+          pre.style.cssText = 'white-space: pre-wrap; margin: 0; padding: 16px; color: #e5484d; font-size: 13px'
+          pre.textContent = 'Memorize: ' + message
+          document.body.appendChild(pre)
+        }
+        addEventListener('error', function (e) { show(e.error && e.error.stack ? e.error.stack : e.message) })
+        addEventListener('unhandledrejection', function (e) { show(e.reason && e.reason.stack ? e.reason.stack : String(e.reason)) })
+      })()
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

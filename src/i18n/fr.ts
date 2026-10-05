@@ -113,6 +113,12 @@ export const fr: Messages = {
   shareUpdate: 'Mettre à jour une collection',
   shareMatch: 'même nom',
 
+  errorTitle: 'Un problème est survenu',
+  errorHelp: 'Vos collections ne sont pas perdues. Rechargez l’application ; si cet écran revient, copiez l’erreur et signalez-la.',
+  copyError: 'Copier l’erreur',
+  loading: 'Chargement…',
+  loadingSlow: 'La base de données du navigateur ne répond pas. Fermez les autres onglets ou fenêtres de Memorize, puis rechargez.',
+
   install: 'Installer',
   installTitle: 'Installer l’application',
   installHelp: 'Installée, Memorize s’ouvre en plein écran depuis l’écran d’accueil et fonctionne hors ligne.',

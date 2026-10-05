@@ -122,6 +122,13 @@ export const en = {
   shareUpdate: 'Update a collection',
   shareMatch: 'same name',
 
+  // Errors
+  errorTitle: 'Something went wrong',
+  errorHelp: 'Your collections are not lost. Reload the app; if this screen comes back, copy the error and report it.',
+  copyError: 'Copy the error',
+  loading: 'Loading…',
+  loadingSlow: 'The browser’s database is not answering. Close the other tabs or windows of Memorize, then reload.',
+
   // PWA
   install: 'Install',
   installTitle: 'Install the app',
