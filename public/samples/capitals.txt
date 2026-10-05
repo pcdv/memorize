@@ -1,0 +1,31 @@
+# World capitals: country : capital
+France : Paris
+Germany : Berlin
+Italy : Rome
+Spain : Madrid
+Portugal : Lisbon
+United Kingdom : London
+Ireland : Dublin
+Netherlands : Amsterdam
+Belgium : Brussels
+Switzerland : Bern
+Austria : Vienna
+Poland : Warsaw
+Czech Republic : Prague
+Hungary : Budapest
+Greece : Athens
+Sweden : Stockholm
+Norway : Oslo
+Finland : Helsinki
+Denmark : Copenhagen
+Canada : Ottawa
+United States : Washington, D.C.
+Mexico : Mexico City
+Brazil : Brasília
+Argentina : Buenos Aires
+Australia : Canberra
+Japan : Tokyo
+China : Beijing
+India : New Delhi
+Egypt : Cairo
+Morocco : Rabat

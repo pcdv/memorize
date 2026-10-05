@@ -1,0 +1,21 @@
+#lang: fr : es
+bonjour : hola
+au revoir : adiós
+merci : gracias
+s'il vous plaît : por favor
+oui : sí
+non : no
+l'eau : el agua
+le pain : el pan
+la maison : la casa
+le chien : el perro
+le chat : el gato
+manger : comer
+boire : beber
+parler : hablar
+aujourd'hui : hoy
+demain : mañana
+hier : ayer
+grand : grande
+petit : pequeño
+beau / joli : bonito
