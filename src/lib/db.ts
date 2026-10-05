@@ -80,6 +80,68 @@ export class MemorizeDb extends Dexie {
 
 export const db = new MemorizeDb()
 
+/** Set by opening the app with ?debug (see index.html). */
+function debugEnabled(): boolean {
+  try {
+    return localStorage.getItem('memorize-debug') !== null
+  } catch {
+    return false
+  }
+}
+
+/**
+ * In debug mode, logs every database transaction with its duration, and warns about the
+ * opening of the database or any transaction still pending after 5 s.
+ */
+function logDatabaseActivity(database: MemorizeDb): void {
+  const pending = new Map<number, { what: string; start: number }>()
+  let next = 0
+  const opening = performance.now()
+  let ready = false
+  database.on('ready', () => {
+    ready = true
+    console.debug(`[db] open in ${Math.round(performance.now() - opening)} ms`)
+  })
+  database.on('blocked', () => console.warn('[db] blocked by another connection'))
+  database.on('versionchange', () => console.warn('[db] version change requested by another connection'))
+  database.on('close', () => console.warn('[db] closed'))
+
+  database.use({
+    stack: 'dbcore',
+    name: 'debug-timing',
+    create: (down) => ({
+      ...down,
+      transaction(stores, mode, options) {
+        const transaction = down.transaction(stores, mode, options)
+        const id = next++
+        const what = `${mode} [${stores.join(', ')}]`
+        const start = performance.now()
+        pending.set(id, { what, start })
+        const done = (outcome: string) => () => {
+          pending.delete(id)
+          const ms = Math.round(performance.now() - start)
+          ;(ms > 500 ? console.warn : console.debug)(`[db] ${what} ${outcome} in ${ms} ms`)
+        }
+        const idb = transaction as unknown as IDBTransaction
+        idb.addEventListener('complete', done('done'))
+        idb.addEventListener('abort', done('aborted'))
+        idb.addEventListener('error', done('failed'))
+        return transaction
+      },
+    }),
+  })
+
+  setInterval(() => {
+    const now = performance.now()
+    if (!ready && now - opening > 5000) console.warn(`[db] still opening after ${Math.round((now - opening) / 1000)} s`)
+    for (const { what, start } of pending.values()) {
+      if (now - start > 5000) console.warn(`[db] still pending after ${Math.round((now - start) / 1000)} s: ${what}`)
+    }
+  }, 5000)
+}
+
+if (debugEnabled()) logDatabaseActivity(db)
+
 export async function loadSettings(database: MemorizeDb = db): Promise<Settings> {
   return { ...DEFAULT_SETTINGS, ...(await database.settings.get('app')) }
 }

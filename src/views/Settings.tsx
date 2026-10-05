@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { Icon } from '../components/Icon'
+import { NumberField } from '../components/NumberField'
 import { useT } from '../i18n'
 import { download, exportBackup, readBackup, restoreBackup } from '../lib/backup'
 import { saveSettings, type AnswerMode, type Direction, type UiLang } from '../lib/db'
@@ -121,20 +122,11 @@ export function Settings() {
             ]}
           />
         </div>
-        <label className="field">
-          <span className="field-label">{t('newPerDay')}</span>
-          <input
-            type="number"
-            min={0}
-            max={999}
-            inputMode="numeric"
-            defaultValue={settings.defaultNewPerDay}
-            onChange={(e) => {
-              const n = Number(e.target.value)
-              if (Number.isInteger(n) && n >= 0) void saveSettings({ defaultNewPerDay: n })
-            }}
-          />
-        </label>
+        <NumberField
+          label={t('newPerDay')}
+          value={settings.defaultNewPerDay}
+          onSave={(defaultNewPerDay) => void saveSettings({ defaultNewPerDay })}
+        />
       </section>
 
       <section className="panel">

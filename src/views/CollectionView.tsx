@@ -4,6 +4,7 @@ import { State } from 'ts-fsrs'
 import { Loading } from '../components/ErrorScreen'
 import { Icon } from '../components/Icon'
 import { LangPicker } from '../components/LangPicker'
+import { NumberField } from '../components/NumberField'
 import { StudyMore } from '../components/StudyMore'
 import { languageName, useI18n, useIntervalUnits, type Translate } from '../i18n'
 import { download, exportCollectionBackup, exportCollectionText } from '../lib/backup'
@@ -113,20 +114,7 @@ export function CollectionView({ id }: { id: number }) {
           <LangPicker label={t('leftSide')} value={c.leftLang} onChange={(v) => update({ leftLang: v })} />
           <LangPicker label={t('rightSide')} value={c.rightLang} onChange={(v) => update({ rightLang: v })} />
         </div>
-        <label className="field">
-          <span className="field-label">{t('newPerDay')}</span>
-          <input
-            type="number"
-            min={0}
-            max={999}
-            inputMode="numeric"
-            defaultValue={c.newPerDay}
-            onChange={(e) => {
-              const n = Number(e.target.value)
-              if (Number.isInteger(n) && n >= 0) update({ newPerDay: n })
-            }}
-          />
-        </label>
+        <NumberField label={t('newPerDay')} value={c.newPerDay} onSave={(newPerDay) => update({ newPerDay })} />
       </section>
 
       <section className="panel actions">
