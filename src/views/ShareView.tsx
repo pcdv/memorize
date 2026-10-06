@@ -4,7 +4,7 @@ import { Loading } from '../components/ErrorScreen'
 import { Icon } from '../components/Icon'
 import { useT } from '../i18n'
 import { normalize } from '../lib/answer'
-import { db, type Collection } from '../lib/db'
+import { db, debugEnabled, type Collection } from '../lib/db'
 import { dedupe } from '../lib/importer'
 import { parseCollection } from '../lib/parse'
 import { href, navigate } from '../lib/route'
@@ -49,6 +49,8 @@ export function ShareView() {
           </p>
         </div>
       </header>
+
+      {debugEnabled() && <pre className="panel hint">{shared.source}</pre>}
 
       {sorted.length > 0 && (
         <section className="panel">

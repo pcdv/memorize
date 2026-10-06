@@ -5,6 +5,8 @@
 export interface SharedText {
   title: string
   text: string
+  /** Where it came from, shown in ?debug mode: the referrer and every URL parameter. */
+  source: string
 }
 
 let pending: SharedText | null = null
@@ -18,7 +20,8 @@ export function takeSharedTextFromUrl(): void {
   // Some apps repeat the title as the first line of the text.
   const [first, ...rest] = text.split(/\r?\n/)
   if (title && first?.trim() === title) text = rest.join('\n')
-  pending = { title, text }
+  const source = [`referrer: ${document.referrer || '(none)'}`, ...[...params].map(([k, v]) => `${k}: ${v.slice(0, 80)}`)].join('\n')
+  pending = { title, text, source }
   // A clean URL, so that reloading does not import the text again.
   window.history.replaceState(null, '', `${window.location.pathname}#/share`)
 }

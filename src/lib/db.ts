@@ -84,7 +84,7 @@ export class MemorizeDb extends Dexie {
 export const db = new MemorizeDb()
 
 /** Set by opening the app with ?debug (see index.html). */
-function debugEnabled(): boolean {
+export function debugEnabled(): boolean {
   try {
     return localStorage.getItem('memorize-debug') !== null
   } catch {
