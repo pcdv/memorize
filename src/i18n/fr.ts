@@ -103,6 +103,16 @@ export const fr: Messages = {
   uiLanguage: 'Langue de l’interface',
   langAuto: 'Automatique',
   answerMode: 'Mode de réponse',
+  reminder: 'Rappel',
+  reminderNever: 'Jamais',
+  reminderDue: 'Quand des cartes sont à réviser',
+  reminderHelp:
+    'Une notification par jour, entre 8 h et 22 h, quand des cartes sont à réviser. L’heure est approximative. Seul Chrome sur Android le permet, dans l’application installée.',
+  reminderUnsupported: 'Ce navigateur ne peut pas afficher de rappels. Utilisez Chrome sur Android, avec l’application installée.',
+  reminderDenied: 'Les notifications sont bloquées : autorisez-les pour cette application dans les réglages du navigateur.',
+  reminderFailed: 'Le rappel n’a pas pu être configuré. L’application doit d’abord être installée.',
+  reminderTitle: 'C’est l’heure de réviser',
+  reminderLine: '{name} : {n} carte à réviser|{name} : {n} cartes à réviser',
   memoryModel: 'Modèle de mémoire',
   memoryModelHelp:
     'Les paramètres FSRS qui décident de la vitesse à laquelle les intervalles s’allongent. Un changement s’applique à la prochaine révision de chaque carte.',

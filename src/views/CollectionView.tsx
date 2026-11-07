@@ -8,15 +8,18 @@ import { NumberField } from '../components/NumberField'
 import { StudyMore } from '../components/StudyMore'
 import { languageName, useI18n, useIntervalUnits, type Translate } from '../i18n'
 import { download, exportCollectionBackup, exportCollectionText } from '../lib/backup'
-import { db, deleteCollection, type Direction, type StoredCard } from '../lib/db'
+import { db, deleteCollection, type Direction, type Reminder, type StoredCard } from '../lib/db'
 import { normalize } from '../lib/answer'
 import { installPlatform } from '../lib/install'
 import { loadCollectionData } from '../lib/queries'
+import { enableReminders } from '../lib/reminder'
 import { href, navigate } from '../lib/route'
 import { formatInterval, queueStats, resetCollectionProgress, type IntervalUnits } from '../lib/scheduler'
 import { ImportDialog } from './ImportDialog'
 
 const MAX_ROWS = 300
+
+const REMINDER_ERRORS = { unsupported: 'reminderUnsupported', denied: 'reminderDenied', failed: 'reminderFailed' } as const
 
 function cardStatus(card: StoredCard | undefined, t: Translate, units: IntervalUnits, now: Date): { text: string; cls: string } {
   if (!card || card.state === State.New) return { text: t('stateNew'), cls: 'new' }
@@ -54,6 +57,13 @@ export function CollectionView({ id }: { id: number }) {
   const right = languageName(c.rightLang, lang) ?? t('rightSide')
   const now = new Date()
   const update = (patch: Partial<typeof c>) => void db.collections.update(c.id, patch)
+  const setReminder = async (reminder: Reminder) => {
+    if (reminder === 'due') {
+      const result = await enableReminders()
+      if (result !== 'ok') return alert(t(REMINDER_ERRORS[result]))
+    }
+    update({ reminder })
+  }
 
   const directions: { value: Direction; label: string }[] = [
     { value: 'forward', label: t('dirForward', { left, right }) },
@@ -130,6 +140,23 @@ export function CollectionView({ id }: { id: number }) {
               </button>
             ))}
           </div>
+        </div>
+        <div className="field">
+          <span className="field-label">{t('reminder')}</span>
+          <div className="segmented" role="radiogroup">
+            {(['never', 'due'] as const).map((reminder) => (
+              <button
+                key={reminder}
+                role="radio"
+                aria-checked={(c.reminder ?? 'never') === reminder}
+                className={(c.reminder ?? 'never') === reminder ? 'active' : ''}
+                onClick={() => void setReminder(reminder)}
+              >
+                {t(reminder === 'never' ? 'reminderNever' : 'reminderDue')}
+              </button>
+            ))}
+          </div>
+          <span className="hint">{t('reminderHelp')}</span>
         </div>
       </section>
 

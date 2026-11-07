@@ -107,6 +107,18 @@ export const en = {
   // Suffixes for minutes, hours, days, months, years, separated by spaces.
   intervalUnits: 'm h d mo y',
 
+  // Reminders
+  reminder: 'Reminder',
+  reminderNever: 'Never',
+  reminderDue: 'When cards are due',
+  reminderHelp:
+    'A notification once a day, between 8:00 and 22:00, when cards are due. The time is approximate. Only Chrome on Android supports it, in the installed app.',
+  reminderUnsupported: 'This browser cannot show reminders. Use Chrome on Android, with the app installed.',
+  reminderDenied: 'Notifications are blocked: allow them for this app in the browser settings.',
+  reminderFailed: 'The reminder could not be set up. The app must be installed first.',
+  reminderTitle: 'Time to review',
+  reminderLine: '{name}: {n} card due|{name}: {n} cards due',
+
   // Settings
   uiLanguage: 'Interface language',
   langAuto: 'Automatic',

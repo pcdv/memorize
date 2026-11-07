@@ -15,6 +15,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
+      // Our own worker (src/sw.ts) adds the daily reminder to the offline cache.
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       includeAssets: ['icons/favicon.svg', 'icons/apple-touch-icon.png', 'samples/*.txt'],
       manifest: {
         name: 'Memorize',
@@ -37,7 +41,7 @@ export default defineConfig({
           { src: 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: {
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg,png,txt,woff2}'],
       },
     }),

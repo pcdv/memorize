@@ -9,6 +9,7 @@ export type NewOrder = 'file' | 'random'
 export type UiLang = 'auto' | 'en' | 'fr'
 /** Which set of FSRS parameters ("weights") schedules the cards. */
 export type MemoryModel = 'standard' | 'tuned' | 'custom'
+export type Reminder = 'never' | 'due'
 
 export interface Collection {
   id: number
@@ -20,6 +21,8 @@ export interface Collection {
   newOrder?: NewOrder
   leftLang?: string
   rightLang?: string
+  /** A daily notification when cards are due; never when absent. */
+  reminder?: Reminder
 }
 
 export interface Note {
@@ -58,6 +61,8 @@ export interface Settings {
   memoryModel: MemoryModel
   /** The parameters typed by the user for the `custom` model: 21 numbers as text. */
   customWeights: string
+  /** The day (`YYYY-MM-DD`, local) of the last reminder shown: at most one a day. */
+  lastReminderDay: string
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -68,6 +73,7 @@ export const DEFAULT_SETTINGS: Settings = {
   defaultNewPerDay: 20,
   memoryModel: 'standard',
   customWeights: '',
+  lastReminderDay: '',
 }
 
 export class MemorizeDb extends Dexie {
