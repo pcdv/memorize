@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import { Rating, State } from 'ts-fsrs'
 import type { Collection, StoredCard } from './db'
-import { buildQueue, emptyCard, formatInterval, previewIntervals } from './scheduler'
+import {
+  applyMemoryModel,
+  buildQueue,
+  emptyCard,
+  formatInterval,
+  parseWeights,
+  previewIntervals,
+  TUNED_WEIGHTS,
+  WEIGHT_COUNT,
+  weightsFor,
+} from './scheduler'
 
 const now = new Date('2026-10-05T10:00:00')
 const collection: Collection = { id: 1, name: 'c', createdAt: 0, direction: 'both', newPerDay: 2 }
@@ -111,5 +121,32 @@ describe('intervals', () => {
     const preview = previewIntervals(card(1, 'forward'), undefined, now)
     expect(preview[Rating.Again]).toMatch(/m$/)
     expect(preview[Rating.Easy]).toMatch(/d$/)
+  })
+})
+
+describe('memory models', () => {
+  const standard = { memoryModel: 'standard', customWeights: '' } as const
+  const easy = () => previewIntervals(card(1, 'forward'), undefined, now)[Rating.Easy]
+
+  it('parses 21 numbers in any common layout, and nothing else', () => {
+    expect(parseWeights(TUNED_WEIGHTS.join(', '))).toEqual([...TUNED_WEIGHTS])
+    expect(parseWeights(`[${TUNED_WEIGHTS.join(',\n')}]`)).toHaveLength(WEIGHT_COUNT)
+    expect(parseWeights(TUNED_WEIGHTS.slice(1).join(','))).toBeNull()
+    expect(parseWeights([...TUNED_WEIGHTS.slice(1), 'x'].join(','))).toBeNull()
+    expect(parseWeights('')).toBeNull()
+  })
+
+  it('falls back to the standard parameters for invalid custom ones', () => {
+    expect(weightsFor({ memoryModel: 'custom', customWeights: '1,2,3' })).toBeUndefined()
+    expect(weightsFor({ memoryModel: 'custom', customWeights: TUNED_WEIGHTS.join(',') })).toEqual([...TUNED_WEIGHTS])
+  })
+
+  it('schedules with the chosen parameters, and goes back to the standard ones', () => {
+    applyMemoryModel(standard)
+    const before = easy()
+    applyMemoryModel({ memoryModel: 'tuned', customWeights: '' })
+    expect(easy()).not.toBe(before)
+    applyMemoryModel(standard)
+    expect(easy()).toBe(before)
   })
 })

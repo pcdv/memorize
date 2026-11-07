@@ -7,6 +7,8 @@ export type Direction = CardDir | 'both'
 export type AnswerMode = 'reveal' | 'type'
 export type NewOrder = 'file' | 'random'
 export type UiLang = 'auto' | 'en' | 'fr'
+/** Which set of FSRS parameters ("weights") schedules the cards. */
+export type MemoryModel = 'standard' | 'tuned' | 'custom'
 
 export interface Collection {
   id: number
@@ -52,6 +54,10 @@ export interface Settings {
   answerMode: AnswerMode
   defaultDirection: Direction
   defaultNewPerDay: number
+  /** Which FSRS parameters schedule the cards. */
+  memoryModel: MemoryModel
+  /** The parameters typed by the user for the `custom` model: 21 numbers as text. */
+  customWeights: string
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -60,6 +66,8 @@ export const DEFAULT_SETTINGS: Settings = {
   answerMode: 'reveal',
   defaultDirection: 'both',
   defaultNewPerDay: 20,
+  memoryModel: 'standard',
+  customWeights: '',
 }
 
 export class MemorizeDb extends Dexie {

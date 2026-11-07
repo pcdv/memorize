@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { I18nContext, makeTranslate, resolveLang, useT } from './i18n'
 import { DEFAULT_SETTINGS, loadSettings } from './lib/db'
+import { applyMemoryModel } from './lib/scheduler'
 import { href, useRoute } from './lib/route'
 import { SettingsContext } from './settings'
 import { CollectionView } from './views/CollectionView'
@@ -33,6 +34,8 @@ function UpdatePrompt() {
 
 export function App() {
   const settings = useLiveQuery(loadSettings) ?? DEFAULT_SETTINGS
+  // Set before the views render, so the first grade buttons already use the chosen parameters.
+  applyMemoryModel(settings)
   const route = useRoute()
   const i18n = useMemo(() => {
     const lang = resolveLang(settings.uiLang)

@@ -1,7 +1,45 @@
 import { createEmptyCard, fsrs, Rating, State, type Card as FsrsCard, type Grade } from 'ts-fsrs'
-import { db, type CardDir, type Collection, type Review, type StoredCard } from './db'
+import { db, type CardDir, type Collection, type MemoryModel, type Review, type StoredCard } from './db'
 
-const engine = fsrs({ enable_fuzz: true })
+/** The number of parameters of the FSRS-6 model. */
+export const WEIGHT_COUNT = 21
+
+/**
+ * Parameters fitted to one learner's own review history (about 4000 reviews) with the FSRS
+ * optimizer. They suit that learner better than the library defaults, and may not suit others.
+ */
+export const TUNED_WEIGHTS: readonly number[] = [
+  0.2658, 0.5698, 3.2534, 13.9222, 6.407, 0.8642, 2.9311, 0.0829, 1.9533, 0.2062, 0.8752, 1.514, 0.058, 0.3208, 1.6755,
+  0.6015, 1.8621, 0.5325, 0.2736, 0.1892, 0.1003,
+]
+
+/** The parameters in a pasted text (comma, space or newline separated), or null if they are not valid. */
+export function parseWeights(text: string): number[] | null {
+  const parts = text.split(/[\s,;[\]]+/).filter(Boolean)
+  const weights = parts.map(Number)
+  return weights.length === WEIGHT_COUNT && weights.every(Number.isFinite) ? weights : null
+}
+
+/** The parameters a memory model stands for; undefined means the library defaults. */
+export function weightsFor(settings: { memoryModel: MemoryModel; customWeights: string }): number[] | undefined {
+  if (settings.memoryModel === 'tuned') return [...TUNED_WEIGHTS]
+  if (settings.memoryModel === 'custom') return parseWeights(settings.customWeights) ?? undefined
+  return undefined
+}
+
+const makeEngine = (w?: number[]) => fsrs({ enable_fuzz: true, ...(w ? { w } : {}) })
+
+let engine = makeEngine()
+let engineKey = ''
+
+/** Switches the scheduler to the parameters of the settings; a no-op when they have not changed. */
+export function applyMemoryModel(settings: { memoryModel: MemoryModel; customWeights: string }): void {
+  const w = weightsFor(settings)
+  const key = w ? w.join(',') : ''
+  if (key === engineKey) return
+  engine = makeEngine(w)
+  engineKey = key
+}
 
 export const GRADES: readonly Grade[] = [Rating.Again, Rating.Hard, Rating.Good, Rating.Easy]
 

@@ -3,7 +3,8 @@ import { Icon } from '../components/Icon'
 import { NumberField } from '../components/NumberField'
 import { useT } from '../i18n'
 import { download, exportBackup, readBackup, readFileText, restoreBackup } from '../lib/backup'
-import { saveSettings, type AnswerMode, type Direction, type UiLang } from '../lib/db'
+import { saveSettings, type AnswerMode, type Direction, type MemoryModel, type UiLang } from '../lib/db'
+import { parseWeights, TUNED_WEIGHTS } from '../lib/scheduler'
 import { installPlatform, isInstalled, useInstallPrompt } from '../lib/install'
 import { href, navigate } from '../lib/route'
 import { useSettings } from '../settings'
@@ -106,6 +107,36 @@ export function Settings() {
             ]}
           />
         </div>
+      </section>
+
+      <section className="panel">
+        <h2>{t('memoryModel')}</h2>
+        <p className="hint">{t('memoryModelHelp')}</p>
+        <Segmented<MemoryModel>
+          value={settings.memoryModel}
+          onChange={(memoryModel) => void saveSettings({ memoryModel })}
+          options={[
+            { value: 'standard', label: t('modelStandard') },
+            { value: 'tuned', label: t('modelTuned') },
+            { value: 'custom', label: t('modelCustom') },
+          ]}
+        />
+        {settings.memoryModel === 'tuned' && <p className="hint">{t('modelTunedHelp')}</p>}
+        {settings.memoryModel === 'custom' && (
+          <label className="field">
+            <span className="field-label">{t('customWeights')}</span>
+            <textarea
+              rows={4}
+              spellCheck={false}
+              defaultValue={settings.customWeights}
+              placeholder={TUNED_WEIGHTS.join(', ')}
+              onBlur={(e) => void saveSettings({ customWeights: e.target.value.trim() })}
+            />
+            {settings.customWeights !== '' && !parseWeights(settings.customWeights) && (
+              <span className="hint">{t('customWeightsInvalid')}</span>
+            )}
+          </label>
+        )}
       </section>
 
       <section className="panel">
