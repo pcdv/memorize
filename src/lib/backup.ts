@@ -42,7 +42,20 @@ export async function exportBackup(): Promise<Blob> {
     reviews: await db.reviews.toArray(),
     settings: await db.settings.toArray(),
   }
-  return new Blob([JSON.stringify(backup)], { type: 'application/json' })
+  return gzip(JSON.stringify(backup))
+}
+
+/** The text compressed as gzip, which backups use: they are smaller and easier to mail. */
+export async function gzip(text: string): Promise<Blob> {
+  const stream = new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'))
+  return new Response(stream).blob().then((b) => new Blob([b], { type: 'application/gzip' }))
+}
+
+/** A file's text; gzip files (by their first bytes, not their name) are decompressed. */
+export async function readFileText(file: Blob): Promise<string> {
+  const head = new Uint8Array(await file.slice(0, 2).arrayBuffer())
+  if (head[0] !== 0x1f || head[1] !== 0x8b) return file.text()
+  return new Response(file.stream().pipeThrough(new DecompressionStream('gzip'))).text()
 }
 
 export async function collectionBackup(collection: Collection): Promise<CollectionBackup> {
@@ -60,7 +73,7 @@ export async function collectionBackup(collection: Collection): Promise<Collecti
 }
 
 export async function exportCollectionBackup(collection: Collection): Promise<Blob> {
-  return new Blob([JSON.stringify(await collectionBackup(collection))], { type: 'application/json' })
+  return gzip(JSON.stringify(await collectionBackup(collection)))
 }
 
 /** The backup in a file's text, or null when it is not a Memorize backup. */

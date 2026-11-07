@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Icon } from '../components/Icon'
 import { NumberField } from '../components/NumberField'
 import { useT } from '../i18n'
-import { download, exportBackup, readBackup, restoreBackup } from '../lib/backup'
+import { download, exportBackup, readBackup, readFileText, restoreBackup } from '../lib/backup'
 import { saveSettings, type AnswerMode, type Direction, type UiLang } from '../lib/db'
 import { installPlatform, isInstalled, useInstallPrompt } from '../lib/install'
 import { href, navigate } from '../lib/route'
@@ -66,7 +66,7 @@ export function Settings() {
   const restoreInput = useRef<HTMLInputElement>(null)
 
   const restore = async (file: File) => {
-    const backup = readBackup(await file.text())
+    const backup = readBackup(await readFileText(file))
     if (!backup) return alert(t('restoreFailed'))
     const restored = await restoreBackup(backup, t)
     if (typeof restored === 'number') navigate(href.collection(restored))
@@ -133,7 +133,7 @@ export function Settings() {
         <h2>{t('backup')}</h2>
         <p className="hint">{t('backupHelp')}</p>
         <div className="actions">
-          <button className="button" onClick={async () => download(await exportBackup(), `memorize-${new Date().toISOString().slice(0, 10)}.json`)}>
+          <button className="button" onClick={async () => download(await exportBackup(), `memorize-${new Date().toISOString().slice(0, 10)}.json.gz`)}>
             <Icon name="download" size={18} /> {t('exportBackup')}
           </button>
           <button className="button" onClick={() => restoreInput.current?.click()}>
@@ -142,7 +142,7 @@ export function Settings() {
           <input
             ref={restoreInput}
             type="file"
-            accept=".json,application/json"
+            accept=".json,.gz,application/json,application/gzip"
             hidden
             onChange={(e) => {
               const file = e.target.files?.[0]

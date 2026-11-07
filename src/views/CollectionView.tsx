@@ -142,7 +142,7 @@ export function CollectionView({ id }: { id: number }) {
         </button>
         <button
           className="button"
-          onClick={async () => download(await exportCollectionBackup(c), `${c.name}.memorize.json`)}
+          onClick={async () => download(await exportCollectionBackup(c), `${c.name}.memorize.json.gz`)}
         >
           <Icon name="download" size={18} /> {t('exportWithProgress')}
         </button>

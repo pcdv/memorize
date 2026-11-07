@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type DragEvent } from 'react'
 import { Icon } from '../components/Icon'
 import { Modal } from '../components/Modal'
 import { languageName, useI18n } from '../i18n'
-import { readBackup, restoreBackup } from '../lib/backup'
+import { readBackup, readFileText, restoreBackup } from '../lib/backup'
 import { db, type Collection } from '../lib/db'
 import { applyMerge, createCollection, findDuplicates, nameFromFile, planMerge } from '../lib/importer'
 import { parseCollection } from '../lib/parse'
@@ -41,7 +41,7 @@ export function ImportDialog({
   const [dragging, setDragging] = useState(false)
 
   const readFile = async (file: File) => {
-    const content = await file.text()
+    const content = await readFileText(file)
     // A backup (exported with progress) is restored, not read as "left : right" lines.
     const backup = readBackup(content)
     if (backup) {
@@ -123,7 +123,7 @@ export function ImportDialog({
         >
           <input
             type="file"
-            accept=".txt,.text,.csv,.tsv,.md,.json,text/plain,application/json"
+            accept=".txt,.text,.csv,.tsv,.md,.json,.gz,text/plain,application/json,application/gzip"
             onChange={(e) => e.target.files?.[0] && void readFile(e.target.files[0])}
           />
           <Icon name="upload" size={28} />
